@@ -1,0 +1,23 @@
+<h2>🐶 Lista de Mascotas</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Especie</th>
+      <th>Edad</th>
+      <th>Adoptado</th>
+      <th>Dueño</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each pets}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.specie}}</td>
+        <td>{{this.age}}</td>
+        <td>{{#if this.adopted}}✅ Sí{{else}}❌ No{{/if}}</td>
+        <td>{{this.owner.first_name}} {{this.owner.last_name}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
