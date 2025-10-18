@@ -1,93 +1,103 @@
-# Mocking API con Express y MongoDB
+# Proyecto Final: Adopción de Mascotas - Backend
 
-Este proyecto implementa una API en **Node.js + Express** que permite generar y almacenar datos ficticios (mocking) de **usuarios** y **mascotas**, usando **Faker.js** y **MongoDB**.  
-Es ideal para **pruebas**, **desarrollo de frontends** o como base para un **proyecto educativo**.
+Este es el proyecto final para el curso de Backend de Coderhouse. La aplicación es una API REST para gestionar usuarios, mascotas y adopciones, completamente dockerizada y documentada.
 
----
+## ✨ Características
 
-## 🚀 Tecnologías utilizadas
+- **Gestión de Usuarios:** CRUD completo para usuarios, con registro y login.
+- **Gestión de Mascotas:** CRUD completo para mascotas.
+- **Sistema de Adopción:** Lógica para que los usuarios adopten mascotas.
+- **Documentación de API:** Documentación interactiva con Swagger para todos los endpoints.
+- **Testing:** Tests funcionales completos para el módulo de adopciones.
+- **Dockerización:** Imagen de Docker lista para producción y disponible en Docker Hub.
 
-- [Node.js](https://nodejs.org/)
-- [Express](https://expressjs.com/)
-- [MongoDB](https://www.mongodb.com/)
-- [Mongoose](https://mongoosejs.com/)
-- [Faker.js](https://fakerjs.dev/)
-- [Dotenv](https://www.npmjs.com/package/dotenv)
+## 🚀 Empezando
 
----
+Sigue estas instrucciones para tener una copia del proyecto corriendo en tu máquina local para desarrollo y pruebas.
 
-## 📂 Estructura del proyecto
+### Pre-requisitos
 
-/src
-├── /config
-│ ├── db.js # Conexión a MongoDB
-│ ├── env.js # Configuración de variables de entorno
-├── /routes
-│ ├── mocks.router.js # Rutas de generación de datos falsos
-│ ├── users.router.js # CRUD de usuarios
-│ ├── pets.router.js # CRUD de mascotas
-│ └── index.js # Centraliza las rutas
-├── /utils
-│ ├── bcrypt.js # Helper para encriptación de contraseñas
-│ ├── user.mocking.js # Generador de usuarios
-│ └── pet.mocking.js # Generador de mascotas
-├── /dao
-│ ├── /models
-│ │ ├── users.model.js
-│ │ └── pets.model.js
-│ └── /managers
-│ ├── user.manager.js
-│ └── pet.manager.js
-├── app.js # Punto de entrada de la aplicación
-├── package.json
-└── .env
+- [Node.js](https://nodejs.org/) (v20 o superior)
+- [MongoDB](https://www.mongodb.com/try/download/community) (o una cuenta en MongoDB Atlas)
+- [Docker](https://www.docker.com/products/docker-desktop/)
 
----
+### Instalación Local
 
-1. Clonar el repositorio  
-   ```bash
-   git clone 
+1.  **Clona el repositorio:**
+    ```bash
+    git clone https://github.com/tu-usuario/tu-repositorio.git
+    cd tu-repositorio
+    ```
 
-2. Instalar dependencias
-   npm install
+2.  **Instala las dependencias:**
+    ```bash
+    npm install
+    ```
 
-3. Configurar variables de entorno en .env
+3.  **Configura las variables de entorno:**
+    Crea un archivo `.env` en la raíz del proyecto y añade las siguientes variables:
+    ```env
+    PORT=8080
+    MONGO_URL=mongodb://localhost:27017
+    DB_NAME=adoptme
+    ```
+    *Reemplaza `MONGO_URL` y `DB_NAME` con tu propia configuración de MongoDB.*
 
-4. Levantar el servidor
+4.  **Inicia el servidor de desarrollo:**
+    ```bash
+    npm run dev
+    ```
+    El servidor estará corriendo en `http://localhost:8080`.
 
-📌 Endpoints principales
-🔹 Mocks
+## 🐳 Uso con Docker
 
-GET /api/mocks/mockingusers → Genera 50 usuarios falsos
+Este proyecto está completamente dockerizado y la imagen está disponible en Docker Hub.
 
-GET /api/mocks/mockingpets → Genera 100 mascotas falsas
+### Enlace a la Imagen en Docker Hub
 
-POST /api/mocks/generateData → Inserta usuarios y mascotas falsos en la base de datos
+Puedes encontrar la imagen pública en el siguiente enlace:
 
-🔹 Usuarios
+➡️ **[jmteran3d/backendiii en Docker Hub](https://hub.docker.com/r/jmteran3d/backendiii)**
 
-GET /api/users → Lista todos los usuarios
+### Ejecutar con Docker Compose (Recomendado)
 
-POST /api/users → Crea un usuario
+La forma más sencilla de ejecutar la aplicación con Docker es usando `docker-compose`.
 
-🔹 Mascotas
+1.  **Asegúrate de tener tu archivo `.env`** configurado como se describió en la sección de instalación local.
 
-GET /api/pets → Lista todas las mascotas
+2.  **Levanta los servicios:**
+    ```bash
+    docker-compose up
+    ```
+    Este comando construirá la imagen si es necesario, iniciará el contenedor y le pasará las variables de entorno. La aplicación estará disponible en `http://localhost:8080`.
 
-POST /api/pets → Crea una mascota
+### Ejecutar con `docker run`
 
-✨ Mejoras futuras
+También puedes ejecutar la imagen directamente desde Docker Hub.
 
-Implementar autenticación con JWT
+1.  **Descarga la imagen:**
+    ```bash
+    docker pull jmteran3d/backendiii:latest
+    ```
 
-Manejo de roles y permisos (admin / user)
+2.  **Ejecuta el contenedor:**
+    Asegúrate de pasar las variables de entorno necesarias.
+    ```bash
+    docker run -p 8080:8080 \
+      --env-file .env \
+      jmteran3d/backendiii:latest
+    ```
 
-Tests unitarios con Jest
+## 🧪 Tests
 
-Dockerización de la app
+Para ejecutar la suite de tests funcionales, usa el siguiente comando:
 
-👨‍💻 Autor
+```bash
+npm test
+```
 
-Proyecto desarrollado por Jesús Manuel Terán Dávila
+## 📚 Documentación de la API
 
-¿Dudas o sugerencias? ¡Estoy en LinkedIn! 👉 linkedin.com/in/jmteran3d
+La documentación completa de la API está disponible a través de Swagger UI una vez que la aplicación está en ejecución.
+
+Visita: `http://localhost:8080/api/docs`

@@ -10,7 +10,7 @@ import {
 export const router = Router();
 
 router.get("/", getAllPets);
-router.get("/:id", getPetById);
+router.get("/:pid", getPetById); // Cambiado a :pid para consistencia
 router.post("/", createPet);
-router.put("/:id", updatePet);
-router.delete("/:id", deletePet);
+router.put("/:pid", updatePet); // Cambiado a :pid para consistencia
+router.delete("/:pid", deletePet); // Cambiado a :pid para consistencia

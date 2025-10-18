@@ -10,6 +10,7 @@ import { router as indexRouter } from "./routes/index.js";
 import { router as viewsRouter } from "./routes/views.router.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,6 +48,9 @@ app.use("/", viewsRouter);
 
 // API routes
 app.use("/api/v1", indexRouter);
+
+// Error Handling Middleware
+app.use(errorHandler);
 
 // DB connection and server startup
 connectDB()
