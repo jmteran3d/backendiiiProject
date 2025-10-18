@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { generateMockingUsers } from "../utils/user.mocking.js";
 import { generateMockingPets } from "../utils/pet.mocking.js";
-import { UserManager } from "../dao/managers/user.manager.js";
-import { PetManager } from "../dao/managers/pet.manager.js";
+import { UserManager } from "../dao/managers/users.manager.js";
+import { PetManager } from "../dao/managers/pets.manager.js";
 
 export const router = Router();
 const userManager = new UserManager();

@@ -1,0 +1,22 @@
+
+services:
+  backend:
+    # 💡 Le dice a Docker Compose que use el Dockerfile en el directorio actual ('.')
+    build: .
+    
+    # 🌐 Mapea el puerto 8080 del contenedor al puerto 8080 de tu máquina local
+    image: jmteran3d/backendiii:latest
+    ports:
+      - "8080:8080"
+      
+    # 🔑 ESTA ES LA SOLUCIÓN: Indica a Compose que lea el archivo .env
+    # y pase todas las variables de entorno al contenedor 'backend'.
+    env_file:
+      - .env 
+      
+    # 🔗 Monta el directorio de trabajo local en el contenedor para
+    # que los cambios se reflejen sin reconstruir la imagen (útil para desarrollo)
+    # Si quieres usar solo la imagen construida, puedes omitir esta línea.
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules # Para evitar sobreescribir los módulos instalados

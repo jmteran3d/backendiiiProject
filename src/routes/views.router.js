@@ -1,29 +1,43 @@
 import { Router } from "express";
-import {UserModel} from "../dao/models/users.model.js";
-import {PetModel} from "../dao/models/pets.model.js";
+import {
+  renderHomePage,
+  renderUsersPage,
+  renderPetsPage,
+  renderMocksPage,
+  renderAdoptionsPage,
+} from "../controllers/views.controller.js";
 
 const router = Router();
 
-// Página principal
-router.get("/", (req, res) => {
-  res.render("home", { title: "Mocking API con Express" });
+// Page routes
+router.get("/", renderHomePage);
+router.get("/users", renderUsersPage);
+router.get("/pets", renderPetsPage);
+router.get("/adoptions", renderAdoptionsPage);
+router.get("/mocks", renderMocksPage);
+
+router.get("/register", (req, res) => {
+  res.render("register", { title: "Register" });
 });
 
-// Vista de usuarios
-router.get("/users", async (req, res) => {
-  const users = await UserModel.find().lean();
-  res.render("users", { title: "Usuarios", users });
+router.get("/login", (req, res) => {
+  res.render("login", { title: "Login" });
 });
 
-// Vista de mascotas
-router.get("/pets", async (req, res) => {
-  const pets = await PetModel.find().lean();
-  res.render("pets", { title: "Mascotas", pets });
+router.get("/profile", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  res.render("profile", { title: "Profile", user: req.session.user });
 });
 
-// Vista de mocks
-router.get("/mocks", (req, res) => {
-  res.render("mocks", { title: "Mocks" });
+router.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).render('error', { message: 'Could not log out.' });
+        }
+        res.redirect('/login');
+    });
 });
 
 export { router };

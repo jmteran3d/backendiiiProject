@@ -1,0 +1,147 @@
+openapi: 3.0.1
+info:
+  title: Adoptions API
+  version: 1.0.0
+  description: >
+    Documentation for the **Adoptions** module of the Final Project.
+    Includes operations for creating and managing adoptions.
+
+tags:
+  - name: Adoptions
+    description: Endpoints for the adoptions module
+
+paths:
+  /api/v1/adoptions:
+    get:
+      summary: Get all adoptions
+      tags: [Adoptions]
+      responses:
+        "200":
+          description: List of adoptions obtained successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Adoption"
+        "500":
+          description: Internal server error
+
+  /api/v1/adoptions/{uid}/{pid}:
+    post:
+      summary: Create a new adoption
+      tags: [Adoptions]
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+          description: The user ID
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: The pet ID
+      responses:
+        "201":
+          description: Adoption created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Adoption"
+        "400":
+          description: Bad request
+        "404":
+          description: User or pet not found
+
+  /api/v1/adoptions/{aid}:
+    get:
+      summary: Get an adoption by ID
+      tags: [Adoptions]
+      parameters:
+        - in: path
+          name: aid
+          required: true
+          schema:
+            type: string
+          description: The adoption ID
+      responses:
+        "200":
+          description: Adoption obtained successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Adoption"
+        "404":
+          description: Adoption not found
+
+    delete:
+      summary: Delete an adoption
+      tags: [Adoptions]
+      parameters:
+        - in: path
+          name: aid
+          required: true
+          schema:
+            type: string
+          description: The adoption ID
+      responses:
+        "200":
+          description: Adoption deleted successfully
+        "404":
+          description: Adoption not found
+
+components:
+  schemas:
+    Adoption:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 670fbc03df69b944d843e7a3
+        owner:
+          $ref: "#/components/schemas/User"
+        pet:
+          $ref: "#/components/schemas/Pet"
+        adoptedAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00.000Z"
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 670fbc03df69b944d843e7a2
+        first_name:
+          type: string
+          example: Jesús
+        last_name:
+          type: string
+          example: Terán
+        email:
+          type: string
+          example: jmteran3d@example.com
+    Pet:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 670fbc03df69b944d843e7a1
+        name:
+          type: string
+          example: Fido
+        specie:
+          type: string
+          example: Dog
+        age:
+          type: number
+          example: 3
