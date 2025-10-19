@@ -53,6 +53,7 @@ app.use("/api/v1", indexRouter);
 app.use(errorHandler);
 
 // DB connection and server startup
+/* We are moving this part to server.js
 connectDB()
   .then(() => {
     app.listen(config.PORT, () => {
@@ -65,6 +66,7 @@ connectDB()
   .catch((err) => {
     console.error("❌ Error connecting to database:", err);
   });
+*/
 
-// Export for testing
+// Export for testing and server startup
 export default app;

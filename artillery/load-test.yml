@@ -1,0 +1,28 @@
+config:
+  # La URL base de tu API. Puede ser una variable de entorno.
+  target: "http://localhost:8080/api/v1"
+  phases:
+    # Fase 1: Calentamiento. Aumentar de 5 a 10 usuarios virtuales por segundo durante 30 segundos.
+    - duration: 30
+      arrivalRate: 5
+      rampTo: 10
+      name: "Warm-up phase"
+    # Fase 2: Carga sostenida. Mantener 20 usuarios virtuales por segundo durante 60 segundos.
+    - duration: 60
+      arrivalRate: 20
+      name: "Sustained load phase"
+scenarios:
+  - name: "Get all pets and a single pet"
+    flow:
+      # 1. Todos los usuarios virtuales harán una petición GET a /pets
+      - get:
+          url: "/pets"
+          # Capturar el ID de la primera mascota del resultado
+          capture:
+            - json: "$.payload[0]._id"
+              as: "petId"
+      # 2. Después de obtener todas las mascotas, esperar 1 segundo
+      - think: 1
+      # 3. Usar el ID capturado para obtener una mascota específica
+      - get:
+          url: "/pets/{{ petId }}"

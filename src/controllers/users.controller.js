@@ -1,32 +1,31 @@
-import { UserManager } from "../dao/managers/users.manager.js";
-import { createHash, isValidPassword } from "../utils/bcrypt.js";
+import { UserService } from "../services/users.service.js";
 
-const userManager = new UserManager();
+const userService = new UserService();
 
-export const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res, next) => {
   try {
-    const users = await userManager.getAll();
-    res.json({ status: "success", payload: users });
+    const users = await userService.getAllUsers();
+    res.status(200).json({ status: "success", payload: users });
   } catch (error) {
-    res.status(500).json({ status: "error", message: error.message });
+    next(error);
   }
 };
 
-export const getUserById = async (req, res) => {
+export const getUserById = async (req, res, next) => {
   try {
-    const user = await userManager.getById(req.params.id);
-    res.json({ status: "success", payload: user });
+    const user = await userService.getUserById(req.params.uid);
+    res.status(200).json({ status: "success", payload: user });
   } catch (error) {
-    res.status(404).json({ status: "error", message: error.message });
+    next(error);
   }
 };
 
-export const createUser = async (req, res) => {
+export const createUser = async (req, res, next) => {
   try {
-    const newUser = await userManager.create(req.body);
+    const newUser = await userService.createUser(req.body);
     res.status(201).json({ status: "success", payload: newUser });
   } catch (error) {
-    res.status(400).json({ status: "error", message: error.message });
+    next(error);
   }
 };
 

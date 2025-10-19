@@ -1,25 +1,33 @@
-# ============================
-# Etapa 1: Construcción
-# ============================
-FROM node:20-bullseye AS build
+# =============================================================================
+# Fase 1: Build - Instalar dependencias
+# =============================================================================
+FROM node:18-alpine AS build
 
-WORKDIR /app
+# Crear el directorio de la aplicación
+WORKDIR /usr/src/app
 
+# Copiar package.json y package-lock.json para cachear las dependencias
 COPY package*.json ./
 
-RUN npm install --production
+# Instalar dependencias de producción
+RUN npm install --only=production
 
+# =============================================================================
+# Fase 2: Production - Crear la imagen final
+# =============================================================================
+FROM node:18-alpine
+
+# Establecer el directorio de trabajo
+WORKDIR /usr/src/app
+
+# Copiar las dependencias instaladas desde la fase de build
+COPY --from=build /usr/src/app/node_modules ./node_modules
+
+# Copiar el resto del código de la aplicación
 COPY . .
 
-# ============================
-# Etapa 2: Ejecución
-# ============================
-FROM node:20-bullseye
-
-WORKDIR /app
-
-COPY --from=build /app /app
-
+# Exponer el puerto en el que corre la aplicación
 EXPOSE 8080
 
-CMD ["npm", "start"]
+# Comando para iniciar la aplicación
+CMD [ "node", "./src/server.js" ]

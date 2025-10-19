@@ -31,14 +31,14 @@ describe("Adoption Router Functional Tests", function () {
 
     pet = await PetModel.create({
       name: "Luna",
-      species: "cat",
+      specie: "cat", // Corregido de 'species' a 'specie'
       age: 3,
       adopted: false,
     });
 
     adoptedPet = await PetModel.create({
       name: "Rocky",
-      species: "dog",
+      specie: "dog", // Corregido de 'species' a 'specie'
       age: 5,
       adopted: true,
     });

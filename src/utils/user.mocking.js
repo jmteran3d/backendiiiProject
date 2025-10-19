@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
-import { createHash } from "./bcrypt.js";
+import { hashPassword } from "./bcrypt.js";
 
 export function generateMockingUsers(num) {
   const users = [];
-  const hashedPassword = createHash("coder123");
+  const hashedPassword = hashPassword("coder123");
 
   for (let i = 0; i < num; i++) {
     users.push({
